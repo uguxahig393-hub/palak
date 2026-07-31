@@ -3,201 +3,499 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For Palak ❤️</title>
+<title>For My Sister ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
+
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Arial,Helvetica,sans-serif;
+font-family:'Poppins',sans-serif;
 }
 
 body{
+
 height:100vh;
+overflow:hidden;
 display:flex;
 justify-content:center;
 align-items:center;
-overflow:hidden;
-background:linear-gradient(135deg,#ff9a9e,#fad0c4,#ffd1ff);
+
+background:linear-gradient(-45deg,
+#ff9a9e,
+#fad0c4,
+#ffd6e7,
+#fff0c1,
+#ffb6c1);
+
 background-size:400% 400%;
-animation:bg 10s infinite alternate;
+animation:bg 12s ease infinite;
+
 }
 
 @keyframes bg{
-0%{background-position:left;}
-100%{background-position:right;}
+
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+
 }
 
 .card{
-width:90%;
-max-width:450px;
-background:rgba(255,255,255,.18);
-backdrop-filter:blur(12px);
-padding:35px;
-border-radius:25px;
+
+width:92%;
+max-width:430px;
+
+background:rgba(255,255,255,.16);
+
+backdrop-filter:blur(16px);
+
+border:1px solid rgba(255,255,255,.3);
+
+border-radius:30px;
+
+padding:30px;
+
 text-align:center;
-box-shadow:0 0 25px rgba(0,0,0,.2);
+
+box-shadow:
+0 15px 45px rgba(0,0,0,.25);
+
 position:relative;
+
 z-index:10;
+
+animation:card 1s ease;
+
+}
+
+@keyframes card{
+
+from{
+
+opacity:0;
+transform:translateY(50px);
+
+}
+
+to{
+
+opacity:1;
+transform:translateY(0);
+
+}
+
+}
+
+.photo{
+
+width:160px;
+height:160px;
+
+border-radius:50%;
+
+object-fit:cover;
+
+border:6px solid white;
+
+box-shadow:0 0 25px rgba(255,255,255,.7);
+
+margin-bottom:20px;
+
+animation:zoom 2s infinite alternate;
+
+}
+
+@keyframes zoom{
+
+from{
+
+transform:scale(1);
+
+}
+
+to{
+
+transform:scale(1.05);
+
+}
+
 }
 
 h1{
-font-size:32px;
-color:#fff;
-margin-bottom:15px;
+
+font-size:30px;
+color:white;
+margin-bottom:10px;
+
+text-shadow:0 3px 10px rgba(0,0,0,.2);
+
 }
 
-p{
+h2{
+
+font-size:24px;
+
+color:#fff7b0;
+
+margin-bottom:20px;
+
+}
+
+.question{
+
 font-size:22px;
-color:#fff;
+
+font-weight:600;
+
+line-height:1.6;
+
+color:white;
+
 margin-bottom:35px;
-line-height:1.5;
-font-weight:bold;
+
 }
 
 button{
+
 padding:14px 32px;
-font-size:18px;
+
 border:none;
-border-radius:40px;
+
+border-radius:50px;
+
+font-size:18px;
+
 cursor:pointer;
-transition:.25s;
+
+transition:.3s;
+
 }
 
 #yes{
+
 background:#4CAF50;
+
 color:white;
-margin-right:15px;
+
+margin-right:12px;
+
+box-shadow:0 5px 15px rgba(0,0,0,.2);
+
 }
 
 #yes:hover{
+
 transform:scale(1.08);
+
 }
 
 #no{
+
 background:#ff3b30;
+
 color:white;
+
 position:fixed;
+
+left:65%;
+top:70%;
+
+box-shadow:0 5px 15px rgba(0,0,0,.2);
+
 }
 
 #message{
+
 display:none;
-margin-top:25px;
-font-size:24px;
+
+margin-top:30px;
+
+font-size:22px;
+
+color:white;
+
 font-weight:bold;
-color:#fff;
-animation:pop .6s;
+
+line-height:1.8;
+
+animation:popup .7s;
+
 }
 
-@keyframes pop{
+@keyframes popup{
+
 from{
+
+opacity:0;
 transform:scale(.5);
-opacity:0;
+
 }
+
 to{
-transform:scale(1);
+
 opacity:1;
-}
+transform:scale(1);
+
 }
 
-.emoji{
+}
+
+.floating{
+
 position:absolute;
-font-size:25px;
-animation:fly linear infinite;
+
 pointer-events:none;
+
+font-size:25px;
+
+animation:float linear infinite;
+
+opacity:.9;
+
 }
 
-@keyframes fly{
+@keyframes float{
+
 0%{
-transform:translateY(100vh);
+
+transform:translateY(120vh) rotate(0deg);
+
 opacity:0;
+
 }
-20%{opacity:1;}
+
+20%{
+
+opacity:1;
+
+}
+
 100%{
-transform:translateY(-120vh);
+
+transform:translateY(-120vh) rotate(360deg);
+
 opacity:0;
+
 }
+
 }
+
+.glow{
+
+position:absolute;
+
+width:250px;
+
+height:250px;
+
+background:white;
+
+filter:blur(140px);
+
+opacity:.18;
+
+border-radius:50%;
+
+top:-100px;
+
+left:-100px;
+
+}
+
+.glow2{
+
+position:absolute;
+
+width:250px;
+
+height:250px;
+
+background:#fff;
+
+filter:blur(140px);
+
+opacity:.18;
+
+border-radius:50%;
+
+bottom:-100px;
+
+right:-100px;
+
+}
+
 </style>
 </head>
 
 <body>
 
+<div class="glow"></div>
+<div class="glow2"></div>
+
 <div class="card">
+
+<img src="palak.jpg" class="photo">
 
 <h1>💖 Dear Palak 💖</h1>
 
-<p>
-Will you be my sister<br>
-in the next life too? 🥹❤️
-</p>
+<h2>Happy Raksha Bandhan 🌸</h2>
 
-<button id="yes">Yes ❤️</button>
+<div class="question">
+
+Will you be my sister<br>
+
+in the next life too? 🥹❤️
+
+</div>
+
+<button id="yes">
+
+Yes ❤️
+
+</button>
 
 <div id="message">
-🥹❤️ Thank You, Palak! ❤️🥹<br><br>
-No matter how many lives we get,<br>
-I will always be grateful to have a sister like you. 🌸
-</div>
 
 </div>
 
-<button id="no">No 😅</button>
+</div>
+
+<button id="no">
+
+No 😅
+
+</button>
 
 <script>
 
-const no=document.getElementById("no");
-const yes=document.getElementById("yes");
+  const yes = document.getElementById("yes");
+const no = document.getElementById("no");
+const message = document.getElementById("message");
 
-no.style.left="60%";
-no.style.top="60%";
+/* ---------- No Button Runs Away ---------- */
 
-function moveButton(){
+function moveNo(){
 
-let x=Math.random()*(window.innerWidth-110);
-let y=Math.random()*(window.innerHeight-60);
+const maxX = window.innerWidth - no.offsetWidth - 20;
+const maxY = window.innerHeight - no.offsetHeight - 20;
 
-no.style.left=x+"px";
-no.style.top=y+"px";
+const x = Math.random() * maxX;
+const y = Math.random() * maxY;
+
+no.style.left = x + "px";
+no.style.top = y + "px";
 
 }
 
-no.addEventListener("mouseover",moveButton);
-no.addEventListener("click",moveButton);
-no.addEventListener("touchstart",moveButton);
+no.addEventListener("mouseover", moveNo);
+no.addEventListener("touchstart", function(e){
+e.preventDefault();
+moveNo();
+});
 
-yes.onclick=function(){
+no.addEventListener("click", moveNo);
 
-document.getElementById("message").style.display="block";
+/* ---------- Yes Button ---------- */
 
-no.style.display="none";
+yes.onclick = function(){
 
-for(let i=0;i<120;i++){
+no.style.display = "none";
 
-let e=document.createElement("div");
+message.style.display = "block";
 
-e.className="emoji";
+message.innerHTML = `
+💖 Awwww!! 🥹❤️<br><br>
 
-const arr=["❤️","🌸","✨","🎀","💖","🥹"];
+Thank You, Palak! 🌸<br><br>
 
-e.innerHTML=arr[Math.floor(Math.random()*arr.length)];
+If I ever get another life,<br>
+I would still pray to have you as my sister. ❤️<br><br>
 
-e.style.left=Math.random()*100+"vw";
+Happy Raksha Bandhan! 🎀<br>
 
-e.style.animationDuration=(Math.random()*5+4)+"s";
+You're the best sister anyone could ever ask for. 💕
+`;
 
-e.style.fontSize=(18+Math.random()*22)+"px";
+document.body.style.background =
+"linear-gradient(135deg,#ff6b9d,#ffb347,#ffe66d,#ff85a2)";
+
+/* Floating Emojis */
+
+const emojis = [
+"❤️","💖","🌸","✨","🎀",
+"🥹","💝","🌹","🫶","💞"
+];
+
+for(let i=0;i<180;i++){
+
+let e = document.createElement("div");
+
+e.className = "floating";
+
+e.innerHTML =
+emojis[Math.floor(Math.random()*emojis.length)];
+
+e.style.left = Math.random()*100 + "vw";
+
+e.style.animationDuration =
+(Math.random()*5+4)+"s";
+
+e.style.fontSize =
+(20+Math.random()*25)+"px";
 
 document.body.appendChild(e);
 
-setTimeout(()=>{
+setTimeout(function(){
+
 e.remove();
+
 },9000);
 
 }
 
-}
+/* Card Glow */
+
+document.querySelector(".card").style.boxShadow =
+"0 0 60px rgba(255,255,255,.9)";
+
+};
+
+/* Auto Floating Background */
+
+const bgEmoji = [
+"❤️","🌸","✨","💖"
+];
+
+setInterval(function(){
+
+let f = document.createElement("div");
+
+f.className = "floating";
+
+f.innerHTML =
+bgEmoji[Math.floor(Math.random()*bgEmoji.length)];
+
+f.style.left = Math.random()*100 + "vw";
+
+f.style.animationDuration =
+(Math.random()*4+7)+"s";
+
+f.style.fontSize =
+(18+Math.random()*18)+"px";
+
+document.body.appendChild(f);
+
+setTimeout(function(){
+
+f.remove();
+
+},12000);
+
+},350);
 
 </script>
 
