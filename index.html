@@ -2,44 +2,88 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Mobile Viewport Lock (Prevents Zooming & Page Distortion) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Happy Raksha Bandhan - Dear Palak 💖</title>
     <style>
         /* ==========================================================================
-           1. RESET & BASE STYLES
+           1. STRICT MOBILE RESET & VIEWPORT LOCK
            ========================================================================== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
             -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            touch-action: none; /* Disables double-tap and pinch zoom completely */
         }
 
         body {
-            min-height: 100vh;
-            width: 100vw;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
-            position: relative;
-            /* Animated gradient background with soft pink, warm gold, and rich cream */
-            background: linear-gradient(-45deg, #ff9a9e, #fecfef, #fbc2eb, #a1c4fd, #ffe6fa);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+            /* Dynamic Animated Gradient Background */
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 30%, #fbc2eb 60%, #a1c4fd 80%, #ffe6fa 100%);
+            background-size: 300% 300%;
+            animation: bgGradientMove 10s ease infinite alternate;
         }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        @keyframes bgGradientMove {
+            0% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+            100% { background-position: 0% 100%; }
+        }
+
+        /* Ambient Glow Aura in Background */
+        body::before {
+            content: '';
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(255,105,180,0.4) 0%, rgba(255,215,0,0.3) 50%, transparent 70%);
+            border-radius: 50%;
+            top: 10%;
+            left: 5%;
+            filter: blur(40px);
+            animation: pulseGlow 6s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(0.8) translate(0, 0); opacity: 0.6; }
+            100% { transform: scale(1.2) translate(25px, 30px); opacity: 0.9; }
         }
 
         /* ==========================================================================
-           2. FLOATING ANIMATION CONTAINER (Hearts, Flowers, Sparkles)
+           2. CANVAS FOR FIREWORKS & CONFETTI
            ========================================================================== */
-        #floating-container {
+        #fx-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* ==========================================================================
+           3. FLOATING ELEMENTS LAYER (Hearts, Flowers, Sparkles)
+           ========================================================================== */
+        #floating-layer {
             position: fixed;
             top: 0;
             left: 0;
@@ -50,77 +94,57 @@
             overflow: hidden;
         }
 
-        .floating-item {
+        .float-item {
             position: absolute;
             bottom: -50px;
-            user-select: none;
             pointer-events: none;
-            animation: floatUp linear forwards;
-            opacity: 0.8;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+            animation: floatUpMotion linear forwards;
+            filter: drop-shadow(0 4px 6px rgba(255,105,180,0.3));
         }
 
-        @keyframes floatUp {
+        @keyframes floatUpMotion {
             0% {
-                transform: translateY(0) rotate(0deg) scale(0.8);
+                transform: translateY(0) rotate(0deg) scale(0.6);
                 opacity: 0;
             }
-            10% {
-                opacity: 0.9;
-            }
-            90% {
-                opacity: 0.9;
-            }
+            15% { opacity: 1; }
+            85% { opacity: 0.9; }
             100% {
-                transform: translateY(-105vh) rotate(360deg) scale(1.2);
+                transform: translateY(-110vh) rotate(360deg) scale(1.1);
                 opacity: 0;
             }
         }
 
         /* ==========================================================================
-           3. CANVAS FOR FIREWORKS & CONFETTI
-           ========================================================================== */
-        #effects-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 20;
-        }
-
-        /* ==========================================================================
-           4. MAIN CARD & GLASSMORPHISM UI
+           4. GLASSMORPHISM CARD (Strictly Safe Mobile Sizing)
            ========================================================================== */
         .card-container {
             position: relative;
             z-index: 10;
-            width: 90%;
-            max-width: 440px;
-            padding: 30px 25px;
-            margin: 20px;
+            width: 86vw;
+            max-width: 360px;
+            padding: 24px 18px;
             text-align: center;
-            border-radius: 28px;
-            
-            /* Apple-style Glassmorphism */
-            background: rgba(255, 255, 255, 0.45);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.7);
-            box-shadow: 0 20px 50px rgba(223, 115, 148, 0.25),
-                        0 0 20px rgba(255, 215, 0, 0.15),
-                        inset 0 0 15px rgba(255, 255, 255, 0.5);
+            border-radius: 26px;
 
-            /* Initial opening animation */
-            animation: cardAppear 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            transition: all 0.5s ease;
+            /* Apple Glassmorphism UI */
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1.5px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 15px 35px rgba(235, 110, 150, 0.22),
+                        0 0 20px rgba(255, 215, 0, 0.2),
+                        inset 0 0 15px rgba(255, 255, 255, 0.6);
+
+            /* Entry & Breathing Animations */
+            animation: cardPopIn 0.9s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards,
+                       cardFloat 4s ease-in-out infinite 0.9s;
         }
 
-        @keyframes cardAppear {
+        @keyframes cardPopIn {
             0% {
                 opacity: 0;
-                transform: scale(0.8) translateY(40px);
+                transform: scale(0.7) translateY(40px);
             }
             100% {
                 opacity: 1;
@@ -128,68 +152,63 @@
             }
         }
 
-        /* Card Shimmer / Reflection Effect */
+        @keyframes cardFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        /* Shimmer reflection */
         .card-container::before {
             content: '';
             position: absolute;
             top: 0;
             left: -150%;
-            width: 100%;
+            width: 70%;
             height: 100%;
-            background: linear-gradient(
-                115deg,
-                transparent,
-                rgba(255, 255, 255, 0.4),
-                transparent
-            );
-            transform: skewX(-20deg);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+            transform: skewX(-25deg);
             pointer-events: none;
-            animation: glassShimmer 6s infinite;
+            animation: glassReflection 5s infinite;
         }
 
-        @keyframes glassShimmer {
+        @keyframes glassReflection {
             0% { left: -150%; }
-            20% { left: 150%; }
-            100% { left: 150%; }
+            30% { left: 180%; }
+            100% { left: 180%; }
         }
 
-        /* Glow effect applied when YES is clicked */
+        /* Card celebration glow */
         .card-container.celebrate-glow {
-            animation: glowPulse 2s infinite alternate;
-            background: rgba(255, 255, 255, 0.65);
+            animation: glowPulse 1.8s ease-in-out infinite alternate !important;
+            background: rgba(255, 255, 255, 0.72);
             border-color: rgba(255, 215, 0, 0.9);
-            box-shadow: 0 0 30px rgba(255, 182, 193, 0.8),
-                        0 0 60px rgba(255, 215, 0, 0.6),
-                        inset 0 0 20px rgba(255, 255, 255, 0.8);
         }
 
         @keyframes glowPulse {
-            0% {
-                box-shadow: 0 0 20px rgba(255, 182, 193, 0.6), 0 0 40px rgba(255, 215, 0, 0.4);
-            }
-            100% {
-                box-shadow: 0 0 35px rgba(255, 105, 180, 0.9), 0 0 70px rgba(255, 215, 0, 0.8);
-            }
+            0% { box-shadow: 0 0 20px rgba(255, 105, 180, 0.8), 0 0 40px rgba(255, 215, 0, 0.5); }
+            100% { box-shadow: 0 0 40px rgba(255, 20, 147, 1), 0 0 70px rgba(255, 215, 0, 0.9); }
         }
 
         /* ==========================================================================
-           5. PROFILE PHOTO (PALAK.JPG)
+           5. CIRCULAR PHOTO (palak.jpg)
            ========================================================================== */
         .photo-wrapper {
             position: relative;
-            width: 130px;
-            height: 130px;
-            margin: 0 auto 20px auto;
+            width: 110px;
+            height: 110px;
+            margin: 0 auto 14px auto;
             border-radius: 50%;
-            padding: 5px;
-            background: linear-gradient(135deg, #ffd700, #ff69b4, #fff);
-            box-shadow: 0 8px 25px rgba(212, 122, 149, 0.3);
-            animation: floatImage 4s ease-in-out infinite;
+            padding: 4px;
+            background: linear-gradient(135deg, #ffd700, #ff69b4, #ff1493, #fff);
+            background-size: 200% 200%;
+            animation: rotateBorder 4s linear infinite;
+            box-shadow: 0 6px 20px rgba(255, 105, 180, 0.35);
         }
 
-        @keyframes floatImage {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-8px) scale(1.03); }
+        @keyframes rotateBorder {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .profile-img {
@@ -199,204 +218,164 @@
             object-fit: cover;
             object-position: center top;
             display: block;
-            background-color: #ffe6eb; /* Fallback if image fails */
-            border: 3px solid #fff;
+            border: 3px solid #ffffff;
+            background-color: #ffd1dc;
         }
 
-        /* Decorative Sparkle Ring around image */
-        .photo-wrapper::after {
-            content: '✨';
+        .orbit-sparkle {
             position: absolute;
-            bottom: -5px;
-            right: -5px;
-            font-size: 22px;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-            animation: spinSparkle 3s linear infinite;
+            font-size: 16px;
+            pointer-events: none;
+            animation: orbit 3.5s linear infinite;
         }
 
-        @keyframes spinSparkle {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        @keyframes orbit {
+            0% { transform: rotate(0deg) translateX(58px) rotate(0deg); }
+            100% { transform: rotate(360deg) translateX(58px) rotate(-360deg); }
         }
 
         /* ==========================================================================
-           6. TYPOGRAPHY & TEXT CONTENT
+           6. TYPOGRAPHY
            ========================================================================== */
         h1.heading {
-            font-size: 1.85rem;
+            font-size: 1.55rem;
             color: #d81b60;
-            margin-bottom: 6px;
+            margin-bottom: 2px;
             font-weight: 800;
             letter-spacing: -0.5px;
-            text-shadow: 0 2px 10px rgba(216, 27, 96, 0.15);
+            text-shadow: 0 2px 8px rgba(216, 27, 96, 0.2);
         }
 
         h2.subheading {
-            font-size: 1.25rem;
+            font-size: 1.05rem;
             color: #b76e79;
-            font-weight: 600;
-            margin-bottom: 16px;
+            font-weight: 700;
+            margin-bottom: 12px;
         }
 
         p.question {
-            font-size: 1.1rem;
-            color: #4a4a4a;
-            line-height: 1.5;
-            margin-bottom: 25px;
-            font-weight: 500;
+            font-size: 0.95rem;
+            color: #333333;
+            line-height: 1.4;
+            margin-bottom: 20px;
+            font-weight: 600;
         }
 
         /* ==========================================================================
-           7. BUTTONS & INTERACTION
+           7. BUTTONS & NO-BUTTON EVASIVE LOGIC
            ========================================================================== */
-        .buttons-wrapper {
+        .btn-wrapper {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 15px;
-            min-height: 50px;
+            gap: 14px;
+            min-height: 48px;
             position: relative;
         }
 
         .btn {
-            padding: 12px 28px;
-            font-size: 1.05rem;
-            font-weight: 700;
+            padding: 12px 26px;
+            font-size: 0.95rem;
+            font-weight: 800;
             border: none;
             border-radius: 50px;
             cursor: pointer;
             outline: none;
-            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, background 0.3s ease;
-            box-shadow: 0 6px 18px rgba(0,0,0,0.12);
             user-select: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            transition: transform 0.15s ease, box-shadow 0.2s ease;
         }
 
-        .btn:active {
-            transform: scale(0.95);
-        }
-
-        /* YES Button Styles */
+        /* YES Button */
         .btn-yes {
-            background: linear-gradient(135deg, #2ecc71, #27ae60);
-            color: white;
-            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.4);
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: #ffffff;
+            box-shadow: 0 6px 18px rgba(16, 185, 129, 0.45);
+            animation: pulseBtn 1.5s infinite alternate;
+            z-index: 10;
         }
 
-        .btn-yes:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 10px 25px rgba(46, 204, 113, 0.5);
-            background: linear-gradient(135deg, #27ae60, #219150);
+        @keyframes pulseBtn {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
         }
 
-        /* NO Button Styles */
+        .btn-yes:active {
+            transform: scale(0.95) !important;
+        }
+
+        /* NO Button - ALWAYS VISIBLE, NEVER GOES OUT OF SCREEN */
         .btn-no {
-            background: linear-gradient(135deg, #ff4d4d, #e60000);
-            color: white;
-            box-shadow: 0 6px 20px rgba(255, 77, 77, 0.4);
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: #ffffff;
+            box-shadow: 0 6px 18px rgba(239, 68, 68, 0.45);
             position: relative;
-            z-index: 99;
-            transition: left 0.15s ease-out, top 0.15s ease-out; /* Super snappy dodging */
+            z-index: 999;
+            /* Smooth evasive transition */
+            transition: left 0.15s ease-out, top 0.15s ease-out;
         }
 
-        /* When NO button starts dodging, fix its positioning to viewport */
-        .btn-no.dodging {
+        .btn-no.running {
             position: fixed !important;
         }
 
         /* ==========================================================================
-           8. CELEBRATION MESSAGE (TYPEWRITER)
+           8. CELEBRATION MESSAGE BOX
            ========================================================================== */
         .message-box {
             display: none;
-            margin-top: 20px;
-            padding: 18px;
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 18px;
-            border: 1px solid rgba(255, 215, 0, 0.6);
-            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.8);
-            animation: fadeIn 0.8s ease forwards;
+            margin-top: 16px;
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 16px;
+            border: 1.5px solid rgba(255, 215, 0, 0.7);
+            box-shadow: 0 6px 20px rgba(255, 105, 180, 0.2);
+            animation: popMsg 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes popMsg {
+            0% { opacity: 0; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
         }
 
         .message-text {
-            font-size: 1.05rem;
-            color: #d81b60;
-            line-height: 1.6;
-            font-weight: 600;
+            font-size: 0.92rem;
+            color: #c2185b;
+            line-height: 1.55;
+            font-weight: 700;
             text-align: center;
             white-space: pre-wrap;
         }
 
-        /* Cursor effect for typewriter */
         .cursor {
             display: inline-block;
             width: 2px;
             height: 1.1em;
-            background-color: #d81b60;
+            background-color: #c2185b;
             margin-left: 2px;
             vertical-align: middle;
-            animation: blink 0.7s infinite;
+            animation: blink 0.6s infinite;
         }
 
         @keyframes blink {
             0%, 100% { opacity: 1; }
             50% { opacity: 0; }
         }
-
-        /* ==========================================================================
-           9. RESPONSIVE DESIGN ADJUSTMENTS
-           ========================================================================== */
-        @media (max-width: 480px) {
-            .card-container {
-                width: 92%;
-                padding: 25px 18px;
-                border-radius: 22px;
-            }
-
-            .photo-wrapper {
-                width: 110px;
-                height: 110px;
-            }
-
-            h1.heading {
-                font-size: 1.55rem;
-            }
-
-            h2.subheading {
-                font-size: 1.1rem;
-            }
-
-            p.question {
-                font-size: 1rem;
-            }
-
-            .btn {
-                padding: 11px 22px;
-                font-size: 0.98rem;
-            }
-
-            .message-text {
-                font-size: 0.95rem;
-            }
-        }
     </style>
 </head>
 <body>
 
-    <!-- Background Canvas for Sparkles, Confetti & Fireworks -->
-    <canvas id="effects-canvas"></canvas>
+    <!-- Fireworks & Confetti Canvas -->
+    <canvas id="fx-canvas"></canvas>
 
-    <!-- Floating Emojis Container -->
-    <div id="floating-container"></div>
+    <!-- Floating Icons Container -->
+    <div id="floating-layer"></div>
 
-    <!-- Main Card -->
-    <div class="card-container" id="mainCard">
-        <!-- Circular Profile Photo -->
+    <!-- Glassmorphism Mobile Card -->
+    <div class="card-container" id="card">
+        <!-- Photo Section -->
         <div class="photo-wrapper">
+            <span class="orbit-sparkle">✨</span>
             <img src="palak.jpg" alt="Palak" class="profile-img" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80';">
         </div>
 
@@ -404,135 +383,129 @@
         <h1 class="heading">💖 Dear Palak 💖</h1>
         <h2 class="subheading">Happy Raksha Bandhan 🌸</h2>
 
-        <!-- Question Prompt -->
-        <p class="question" id="questionText">Will you be my sister in the next life too? 🥹❤️</p>
+        <!-- Question -->
+        <p class="question">Will you be my sister in the next life too? 🥹❤️</p>
 
-        <!-- Interactive Buttons -->
-        <div class="buttons-wrapper" id="btnGroup">
+        <!-- Buttons -->
+        <div class="btn-wrapper" id="btnGroup">
             <button class="btn btn-yes" id="yesBtn">YES</button>
             <button class="btn btn-no" id="noBtn">NO</button>
         </div>
 
-        <!-- Typewriter Response Message -->
-        <div class="message-box" id="messageBox">
-            <span class="message-text" id="typewriterText"></span><span class="cursor" id="cursor"></span>
+        <!-- Message Box -->
+        <div class="message-box" id="msgBox">
+            <span class="message-text" id="typeText"></span><span class="cursor" id="cursor"></span>
         </div>
     </div>
 
-    <!-- Background Audio (Optional Soft Piano Ambient) -->
-    <audio id="bgMusic" loop preload="auto">
+    <!-- Soft Instrumental Background Music -->
+    <audio id="bgAudio" loop preload="auto">
         <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=sweet-piano-112180.mp3" type="audio/mpeg">
     </audio>
 
     <script>
-        /* ==========================================================================
-           1. CONTINUOUS FLOATING BACKGROUND ELEMENTS (Hearts, Flowers, Sparkles)
-           ========================================================================== */
-        const floatingContainer = document.getElementById('floating-container');
-        const floatItems = ['💖', '🌸', '✨', '💕', '🌺', '✨', '💗', '🌼', '⭐'];
+        /* Prevent all zoom & gesture events on touch devices */
+        document.addEventListener('gesturestart', function (e) { e.preventDefault(); });
+        document.addEventListener('dblclick', function (e) { e.preventDefault(); });
 
-        function createFloatingItem() {
-            const item = document.createElement('div');
-            item.classList.add('floating-item');
+        /* ==========================================================================
+           1. CONTINUOUS FLOATING EMOJIS
+           ========================================================================== */
+        const floatLayer = document.getElementById('floating-layer');
+        const icons = ['💖', '🌸', '✨', '💕', '🌺', '💗', '🌼', '⭐'];
+
+        function spawnFloatItem() {
+            const el = document.createElement('div');
+            el.className = 'float-item';
+            el.innerText = icons[Math.floor(Math.random() * icons.length)];
             
-            // Randomly select icon and size
-            const icon = floatItems[Math.floor(Math.random() * floatItems.length)];
-            item.innerText = icon;
+            const size = Math.random() * 1.1 + 0.8;
+            el.style.fontSize = `${size}rem`;
+            el.style.left = `${Math.random() * 92}%`;
             
-            const size = Math.random() * 1.2 + 0.8; // size multiplier
-            item.style.fontSize = `${size}rem`;
+            const duration = Math.random() * 5 + 5;
+            el.style.animationDuration = `${duration}s`;
             
-            // Random horizontal positioning
-            item.style.left = `${Math.random() * 95}%`;
-            
-            // Random duration and delay
-            const duration = Math.random() * 6 + 6; // 6s - 12s
-            item.style.animationDuration = `${duration}s`;
-            
-            floatingContainer.appendChild(item);
-            
-            // Cleanup item after animation finishes
-            setTimeout(() => {
-                item.remove();
-            }, duration * 1000);
+            floatLayer.appendChild(el);
+            setTimeout(() => el.remove(), duration * 1000);
         }
 
-        // Generate floating elements continuously
-        setInterval(createFloatingItem, 450);
-        for(let i = 0; i < 10; i++) setTimeout(createFloatingItem, i * 200);
+        setInterval(spawnFloatItem, 380);
+        for(let i = 0; i < 10; i++) setTimeout(spawnFloatItem, i * 150);
 
         /* ==========================================================================
-           2. EVASIVE 'NO' BUTTON LOGIC (Desktop Hover & Mobile Touch/Approach)
+           2. NO BUTTON: RUNS EVERYWHERE WITHIN MOBILE SCREEN BOUNDARIES
            ========================================================================== */
         const noBtn = document.getElementById('noBtn');
-        let isDodging = false;
+        let isRunning = false;
 
-        function moveNoButton(e) {
-            if (!isDodging) {
-                noBtn.classList.add('dodging');
-                isDodging = true;
+        function dodgeNoButton(touchX, touchY) {
+            if (!isRunning) {
+                noBtn.classList.add('running');
+                isRunning = true;
             }
 
-            const btnWidth = noBtn.offsetWidth;
-            const btnHeight = noBtn.offsetHeight;
-            const padding = 20; // Keep away from window edges
+            // Screen & Button Dimensions
+            const screenW = document.documentElement.clientWidth || window.innerWidth;
+            const screenH = document.documentElement.clientHeight || window.innerHeight;
+            
+            const btnW = noBtn.offsetWidth || 75;
+            const btnH = noBtn.offsetHeight || 40;
+            
+            const padding = 16; // Safe margin from edges
 
-            // Get viewport boundaries
-            const maxWidth = window.innerWidth - btnWidth - padding;
-            const maxHeight = window.innerHeight - btnHeight - padding;
+            const maxX = screenW - btnW - padding;
+            const maxY = screenH - btnH - padding;
 
-            // Generate random positions within safe boundary
-            let randomX = Math.max(padding, Math.floor(Math.random() * maxWidth));
-            let randomY = Math.max(padding, Math.floor(Math.random() * maxHeight));
+            let newX = Math.max(padding, Math.floor(Math.random() * maxX));
+            let newY = Math.max(padding, Math.floor(Math.random() * maxY));
 
-            // Prevent teleporting right under current cursor/finger
-            if (e) {
-                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-
-                if (Math.abs(randomX - clientX) < 80) {
-                    randomX = (randomX + 150) % maxWidth;
+            // Prevent landing directly under finger
+            if (touchX !== undefined && touchY !== undefined) {
+                if (Math.abs(newX - touchX) < 80) {
+                    newX = (newX + 150) % maxX;
+                    if (newX < padding) newX = padding;
                 }
-                if (Math.abs(randomY - clientY) < 80) {
-                    randomY = (randomY + 150) % maxHeight;
+                if (Math.abs(newY - touchY) < 80) {
+                    newY = (newY + 150) % maxY;
+                    if (newY < padding) newY = padding;
                 }
             }
 
-            noBtn.style.left = `${randomX}px`;
-            noBtn.style.top = `${randomY}px`;
+            noBtn.style.left = `${newX}px`;
+            noBtn.style.top = `${newY}px`;
         }
 
-        // Desktop mouse hover/move approach
-        noBtn.addEventListener('mouseenter', moveNoButton);
-        noBtn.addEventListener('mousemove', moveNoButton);
-
-        // Mobile touch approach
+        // Touch event handlers
         noBtn.addEventListener('touchstart', (e) => {
             e.preventDefault();
-            moveNoButton(e);
+            const touch = e.touches[0];
+            dodgeNoButton(touch.clientX, touch.clientY);
         });
 
-        // Proximity detector for mobile/fast mouse movements
-        document.addEventListener('mousemove', (e) => {
+        document.addEventListener('touchmove', (e) => {
             if (noBtn.style.display === 'none') return;
+            const touch = e.touches[0];
             const rect = noBtn.getBoundingClientRect();
-            const btnCenterX = rect.left + rect.width / 2;
-            const btnCenterY = rect.top + rect.height / 2;
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
 
-            const distance = Math.hypot(e.clientX - btnCenterX, e.clientY - btnCenterY);
-            // Move if cursor comes closer than 70px
-            if (distance < 70) {
-                moveNoButton(e);
+            const dist = Math.hypot(touch.clientX - centerX, touch.clientY - centerY);
+            if (dist < 75) {
+                dodgeNoButton(touch.clientX, touch.clientY);
             }
         });
 
+        // Mouse fallbacks
+        noBtn.addEventListener('mouseenter', (e) => dodgeNoButton(e.clientX, e.clientY));
+        noBtn.addEventListener('mousemove', (e) => dodgeNoButton(e.clientX, e.clientY));
+
         /* ==========================================================================
-           3. CANVAS CELEBRATION EFFECTS (Fireworks & Confetti)
+           3. CELEBRATION CANVAS FX
            ========================================================================== */
-        const canvas = document.getElementById('effects-canvas');
+        const canvas = document.getElementById('fx-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
-        let animationFrameId;
 
         function resizeCanvas() {
             canvas.width = window.innerWidth;
@@ -542,24 +515,24 @@
         resizeCanvas();
 
         class Particle {
-            constructor(x, y, isFirework = false) {
+            constructor(x, y, isFirework) {
                 this.x = x;
                 this.y = y;
                 this.isFirework = isFirework;
-                this.radius = isFirework ? Math.random() * 3 + 2 : Math.random() * 6 + 4;
+                this.radius = isFirework ? Math.random() * 3 + 2 : Math.random() * 5 + 3;
                 
                 const angle = Math.random() * Math.PI * 2;
-                const speed = isFirework ? (Math.random() * 8 + 2) : (Math.random() * 4 + 1);
+                const speed = isFirework ? (Math.random() * 6 + 2) : (Math.random() * 4 + 1);
                 
                 this.vx = Math.cos(angle) * speed;
                 this.vy = Math.sin(angle) * speed - (isFirework ? 1 : 0);
                 
-                this.color = isFirework 
+                this.color = isFirework
                     ? `hsl(${Math.random() * 360}, 100%, 65%)`
-                    : ['#ff69b4', '#ffd700', '#ff1493', '#00e676', '#00bcd4', '#ff9800'][Math.floor(Math.random() * 6)];
+                    : ['#ff69b4', '#ffd700', '#ff1493', '#10b981', '#00bcd4', '#ff9800'][Math.floor(Math.random() * 6)];
                 
                 this.alpha = 1;
-                this.decay = Math.random() * 0.015 + 0.008;
+                this.decay = Math.random() * 0.02 + 0.008;
                 this.gravity = isFirework ? 0.12 : 0.05;
             }
 
@@ -567,4 +540,18 @@
                 this.vx *= 0.98;
                 this.vy *= 0.98;
                 this.vy += this.gravity;
-                th
+                this.x += this.vx;
+                this.y += this.vy;
+                this.alpha -= this.decay;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = Math.max(this.alpha, 0);
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.shadowBlur = 6;
+                ctx.shadowColor = this.color;
+                ctx.fill();
+      
