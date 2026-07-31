@@ -16,8 +16,8 @@
         }
 
         html, body {
-            width: 100%;
-            height: 100%;
+            width: 100vw;
+            height: 100vh;
             overflow: hidden;
             position: fixed;
             top: 0;
@@ -71,25 +71,25 @@
             100% { transform: translateY(-110vh) scale(1.1); opacity: 0; }
         }
 
-        /* CARD - Fits strictly on all screens */
+        /* MAIN CARD */
         .card-container {
             position: relative;
             z-index: 10;
             width: 88vw;
             max-width: 340px;
-            max-height: 90vh;
-            padding: 20px 16px;
+            padding: 22px 18px;
             text-align: center;
             border-radius: 24px;
-            background: rgba(255, 255, 255, 0.55);
+            background: rgba(255, 255, 255, 0.65);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
-            border: 1.5px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border: 1.5px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            transition: all 0.4s ease;
         }
 
         .photo-wrapper {
@@ -125,7 +125,7 @@
         }
 
         p.question {
-            font-size: 0.88rem;
+            font-size: 0.9rem;
             color: #333;
             margin-bottom: 16px;
             font-weight: 600;
@@ -138,7 +138,7 @@
             align-items: center;
             gap: 15px;
             width: 100%;
-            min-height: 50px;
+            min-height: 48px;
         }
 
         .btn {
@@ -158,25 +158,102 @@
             box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
         }
 
+        /* NO BUTTON - FIXED IN BOUNDS */
         .btn-no {
             background: #ef4444;
             color: #fff;
             box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
             position: relative;
-            transition: transform 0.1s ease;
+            z-index: 99;
+            transition: left 0.15s ease-out, top 0.15s ease-out;
         }
 
+        /* STEP 2: RAKHI TYING SECTION */
+        .rakhi-section {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .hand-container {
+            position: relative;
+            width: 150px;
+            height: 130px;
+            margin: 10px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hand-emoji {
+            font-size: 5rem;
+            position: absolute;
+            bottom: 0;
+            transform: rotate(-10deg);
+            transition: transform 0.3s ease;
+        }
+
+        .rakhi-emoji {
+            font-size: 3.2rem;
+            position: absolute;
+            top: -10px;
+            cursor: pointer;
+            filter: drop-shadow(0 4px 8px rgba(255, 105, 180, 0.5));
+            animation: floatRakhi 1.5s ease-in-out infinite alternate;
+            z-index: 30;
+            touch-action: manipulation;
+        }
+
+        @keyframes floatRakhi {
+            0% { transform: translateY(0) scale(1); }
+            100% { transform: translateY(-8px) scale(1.08); }
+        }
+
+        .rakhi-emoji.tied {
+            animation: tieRakhiAnim 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important;
+        }
+
+        @keyframes tieRakhiAnim {
+            0% { top: -10px; transform: scale(1.2) rotate(0deg); }
+            50% { transform: scale(1.4) rotate(180deg); }
+            100% { top: 40px; transform: scale(1.1) rotate(360deg); }
+        }
+
+        .tap-instruction {
+            font-size: 0.95rem;
+            color: #d81b60;
+            font-weight: 800;
+            margin-top: 10px;
+            animation: pulseText 1s infinite alternate;
+        }
+
+        @keyframes pulseText {
+            0% { opacity: 0.7; transform: scale(0.98); }
+            100% { opacity: 1; transform: scale(1.02); }
+        }
+
+        /* FINAL MESSAGE BOX */
         .message-box {
             display: none;
             margin-top: 12px;
-            padding: 10px;
-            background: rgba(255, 255, 255, 0.85);
-            border-radius: 12px;
-            border: 1px solid #ffd700;
-            font-size: 0.85rem;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 16px;
+            border: 1.5px solid #ffd700;
+            font-size: 0.88rem;
             color: #c2185b;
             font-weight: 700;
-            line-height: 1.4;
+            line-height: 1.5;
+            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.2);
+            animation: fadeIn 0.6s ease forwards;
         }
     </style>
 </head>
@@ -186,19 +263,33 @@
     <div id="floating-layer"></div>
 
     <div class="card-container" id="card">
-        <div class="photo-wrapper">
-            <img src="palak.jpg" alt="Palak" class="profile-img" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80';">
+        <!-- Initial View -->
+        <div id="initialView" style="width: 100%;">
+            <div class="photo-wrapper" style="margin: 0 auto 12px auto;">
+                <img src="palak.jpg" alt="Palak" class="profile-img" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80';">
+            </div>
+
+            <h1 class="heading">💖 Dear Palak 💖</h1>
+            <h2 class="subheading">Happy Raksha Bandhan 🌸</h2>
+            <p class="question">Will you be my sister in the next life too? 🥹❤️</p>
+
+            <div class="btn-wrapper" id="btnGroup">
+                <button class="btn btn-yes" id="yesBtn">YES</button>
+                <button class="btn btn-no" id="noBtn">NO</button>
+            </div>
         </div>
 
-        <h1 class="heading">💖 Dear Palak 💖</h1>
-        <h2 class="subheading">Happy Raksha Bandhan 🌸</h2>
-        <p class="question">Will you be my sister in the next life too? 🥹❤️</p>
-
-        <div class="btn-wrapper" id="btnGroup">
-            <button class="btn btn-yes" id="yesBtn">YES</button>
-            <button class="btn btn-no" id="noBtn">NO</button>
+        <!-- Step 2: Interactive Rakhi Tying -->
+        <div class="rakhi-section" id="rakhiSection">
+            <h1 class="heading">🌸 Tie The Rakhi 🌸</h1>
+            <div class="hand-container">
+                <span class="rakhi-emoji" id="rakhiIcon">🏵️</span>
+                <span class="hand-emoji" id="handIcon">🖐️</span>
+            </div>
+            <p class="tap-instruction" id="tapInstruction">✨ Tap to tie rakhi ✨</p>
         </div>
 
+        <!-- Step 3: Final Celebration Message -->
         <div class="message-box" id="msgBox"></div>
     </div>
 
@@ -207,9 +298,9 @@
     </audio>
 
     <script>
-        // Floating Emojis
+        // Floating Emojis Background
         const floatLayer = document.getElementById('floating-layer');
-        const icons = ['💖', '🌸', '✨', '💕', '🌺'];
+        const icons = ['💖', '🌸', '✨', '💕', '🌺', '🏵️'];
         setInterval(() => {
             const el = document.createElement('div');
             el.className = 'float-item';
@@ -219,51 +310,89 @@
             setTimeout(() => el.remove(), 6000);
         }, 400);
 
-        // Dodge NO Button safely within viewport
+        // PERFECT NO BUTTON DODGE (STAYS IN SCREEN BOUNDS ALWAYS)
         const noBtn = document.getElementById('noBtn');
-        function moveNoBtn(e) {
+        let isNoBtnMoved = false;
+
+        function dodgeNoBtn(e) {
             if (e) e.preventDefault();
-            noBtn.style.position = 'fixed';
             
-            const btnW = noBtn.offsetWidth || 70;
-            const btnH = noBtn.offsetHeight || 35;
-            
-            const maxX = window.innerWidth - btnW - 20;
-            const maxY = window.innerHeight - btnH - 20;
+            if (!isNoBtnMoved) {
+                noBtn.style.position = 'fixed';
+                isNoBtnMoved = true;
+            }
 
-            const randomX = Math.max(20, Math.floor(Math.random() * maxX));
-            const randomY = Math.max(20, Math.floor(Math.random() * maxY));
+            const btnWidth = noBtn.offsetWidth || 80;
+            const btnHeight = noBtn.offsetHeight || 40;
+            const padding = 20;
 
-            noBtn.style.left = randomX + 'px';
-            noBtn.style.top = randomY + 'px';
+            // Strict Visible Screen Bounds
+            const maxLeft = window.innerWidth - btnWidth - padding;
+            const maxTop = window.innerHeight - btnHeight - padding;
+
+            const randomLeft = Math.max(padding, Math.floor(Math.random() * maxLeft));
+            const randomTop = Math.max(padding, Math.floor(Math.random() * maxTop));
+
+            noBtn.style.left = randomLeft + 'px';
+            noBtn.style.top = randomTop + 'px';
         }
 
-        noBtn.addEventListener('touchstart', moveNoBtn);
-        noBtn.addEventListener('mouseover', moveNoBtn);
+        noBtn.addEventListener('touchstart', dodgeNoBtn);
+        noBtn.addEventListener('click', dodgeNoBtn);
+        noBtn.addEventListener('mouseover', dodgeNoBtn);
 
-        // YES Button Click Action
+        // FLOW STEP 1: YES CLICK -> SHOW RAKHI SECTION
         const yesBtn = document.getElementById('yesBtn');
-        const msgBox = document.getElementById('msgBox');
-        const btnGroup = document.getElementById('btnGroup');
+        const initialView = document.getElementById('initialView');
+        const rakhiSection = document.getElementById('rakhiSection');
         const bgAudio = document.getElementById('bgAudio');
 
-        function handleYesAction(e) {
-            if(e) e.preventDefault();
+        function goToRakhiSection(e) {
+            if (e) e.preventDefault();
+            
             bgAudio.play().catch(() => {});
             
-            btnGroup.style.display = 'none';
+            // Hide Initial View & NO button completely
+            initialView.style.display = 'none';
             noBtn.style.display = 'none';
-            
-            msgBox.style.display = 'block';
-            msgBox.innerHTML = "Thank you, Palak ❤️<br>I would choose you as my sister in every lifetime.<br>Happy Raksha Bandhan 🌸";
-            
-            startFireworks();
+
+            // Show Rakhi Section
+            rakhiSection.style.display = 'flex';
         }
 
-        yesBtn.addEventListener('touchstart', handleYesAction);
-        yesBtn.addEventListener('click', handleYesAction);
+        yesBtn.addEventListener('touchstart', goToRakhiSection);
+        yesBtn.addEventListener('click', goToRakhiSection);
 
-        // Simple Fireworks Canvas
+        // FLOW STEP 2: TAP TO TIE RAKHI -> FINAL CELEBRATION
+        const rakhiIcon = document.getElementById('rakhiIcon');
+        const tapInstruction = document.getElementById('tapInstruction');
+        const msgBox = document.getElementById('msgBox');
+        let isRakhiTied = false;
+
+        function tieRakhi(e) {
+            if (e) e.preventDefault();
+            if (isRakhiTied) return;
+            isRakhiTied = true;
+
+            // Trigger Animation
+            rakhiIcon.classList.add('tied');
+            tapInstruction.innerText = "❤️ Rakhi Tied Successfully! ❤️";
+
+            // Fire Canvas Celebration
+            startFireworks();
+
+            // Transition to Final Celebration Page after 1.2 Seconds
+            setTimeout(() => {
+                rakhiSection.style.display = 'none';
+                msgBox.style.display = 'block';
+                msgBox.innerHTML = "Thank you, Palak ❤️<br><br>I would choose you as my sister in every lifetime.<br><br> Happy Raksha Bandhan 🌸<br> You're the best sister ever!";
+            }, 1200);
+        }
+
+        rakhiIcon.addEventListener('touchstart', tieRakhi);
+        rakhiIcon.addEventListener('click', tieRakhi);
+
+        // Canvas Fireworks
         const canvas = document.getElementById('fx-canvas');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
@@ -272,13 +401,13 @@
         let particles = [];
         function startFireworks() {
             setInterval(() => {
-                for(let i=0; i<30; i++) {
+                for(let i = 0; i < 35; i++) {
                     particles.push({
                         x: window.innerWidth / 2,
                         y: window.innerHeight / 2,
-                        vx: (Math.random() - 0.5) * 8,
-                        vy: (Math.random() - 0.5) * 8,
-                        color: `hsl(${Math.random()*360}, 100%, 60%)`,
+                        vx: (Math.random() - 0.5) * 10,
+                        vy: (Math.random() - 0.5) * 10,
+                        color: `hsl(${Math.random() * 360}, 100%, 60%)`,
                         alpha: 1
                     });
                 }
@@ -295,7 +424,7 @@
                 ctx.globalAlpha = Math.max(p.alpha, 0);
                 ctx.fillStyle = p.color;
                 ctx.beginPath();
-                ctx.arc(p.x, p.y, 3, 0, Math.PI*2);
+                ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
                 ctx.fill();
                 if(p.alpha <= 0) particles.splice(index, 1);
             });
