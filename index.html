@@ -80,7 +80,7 @@
             padding: 22px 18px;
             text-align: center;
             border-radius: 24px;
-            background: rgba(255, 255, 255, 0.65);
+            background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
             border: 1.5px solid rgba(255, 255, 255, 0.9);
@@ -89,7 +89,6 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            transition: all 0.4s ease;
         }
 
         .photo-wrapper {
@@ -158,7 +157,6 @@
             box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
         }
 
-        /* NO BUTTON - FIXED IN BOUNDS */
         .btn-no {
             background: #ef4444;
             color: #fff;
@@ -168,92 +166,82 @@
             transition: left 0.15s ease-out, top 0.15s ease-out;
         }
 
-        /* STEP 2: RAKHI TYING SECTION */
+        /* STEP 2: RAKHI SCREEN */
         .rakhi-section {
             display: none;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             width: 100%;
-            animation: fadeIn 0.5s ease forwards;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
+            padding: 10px 0;
         }
 
         .hand-container {
             position: relative;
-            width: 150px;
-            height: 130px;
-            margin: 10px 0;
+            width: 160px;
+            height: 140px;
+            margin: 15px 0;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
         .hand-emoji {
-            font-size: 5rem;
+            font-size: 5.5rem;
             position: absolute;
             bottom: 0;
-            transform: rotate(-10deg);
-            transition: transform 0.3s ease;
         }
 
         .rakhi-emoji {
-            font-size: 3.2rem;
+            font-size: 3.5rem;
             position: absolute;
-            top: -10px;
+            top: -15px;
             cursor: pointer;
-            filter: drop-shadow(0 4px 8px rgba(255, 105, 180, 0.5));
-            animation: floatRakhi 1.5s ease-in-out infinite alternate;
+            filter: drop-shadow(0 4px 10px rgba(255, 105, 180, 0.6));
+            animation: bounceRakhi 1.2s ease-in-out infinite alternate;
             z-index: 30;
             touch-action: manipulation;
         }
 
-        @keyframes floatRakhi {
+        @keyframes bounceRakhi {
             0% { transform: translateY(0) scale(1); }
-            100% { transform: translateY(-8px) scale(1.08); }
+            100% { transform: translateY(-12px) scale(1.1); }
         }
 
         .rakhi-emoji.tied {
-            animation: tieRakhiAnim 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important;
+            animation: tieRakhiAnim 0.7s forwards !important;
         }
 
         @keyframes tieRakhiAnim {
-            0% { top: -10px; transform: scale(1.2) rotate(0deg); }
-            50% { transform: scale(1.4) rotate(180deg); }
-            100% { top: 40px; transform: scale(1.1) rotate(360deg); }
+            0% { top: -15px; transform: scale(1.2); }
+            50% { transform: scale(1.5) rotate(180deg); }
+            100% { top: 35px; transform: scale(1.1) rotate(360deg); }
         }
 
         .tap-instruction {
-            font-size: 0.95rem;
+            font-size: 1rem;
             color: #d81b60;
             font-weight: 800;
             margin-top: 10px;
-            animation: pulseText 1s infinite alternate;
+            animation: pulseText 0.8s infinite alternate;
         }
 
         @keyframes pulseText {
-            0% { opacity: 0.7; transform: scale(0.98); }
-            100% { opacity: 1; transform: scale(1.02); }
+            0% { opacity: 0.6; transform: scale(0.96); }
+            100% { opacity: 1; transform: scale(1.04); }
         }
 
-        /* FINAL MESSAGE BOX */
         .message-box {
             display: none;
             margin-top: 12px;
             padding: 12px;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 16px;
             border: 1.5px solid #ffd700;
-            font-size: 0.88rem;
+            font-size: 0.9rem;
             color: #c2185b;
             font-weight: 700;
             line-height: 1.5;
-            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.2);
-            animation: fadeIn 0.6s ease forwards;
         }
     </style>
 </head>
@@ -263,7 +251,7 @@
     <div id="floating-layer"></div>
 
     <div class="card-container" id="card">
-        <!-- Initial View -->
+        <!-- Main Question Screen -->
         <div id="initialView" style="width: 100%;">
             <div class="photo-wrapper" style="margin: 0 auto 12px auto;">
                 <img src="palak.jpg" alt="Palak" class="profile-img" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80';">
@@ -279,17 +267,17 @@
             </div>
         </div>
 
-        <!-- Step 2: Interactive Rakhi Tying -->
+        <!-- Interactive Rakhi Screen -->
         <div class="rakhi-section" id="rakhiSection">
-            <h1 class="heading">🌸 Tie The Rakhi 🌸</h1>
-            <div class="hand-container">
+            <h1 class="heading">🌸 Rakhi Time 🌸</h1>
+            <div class="hand-container" id="rakhiClickArea">
                 <span class="rakhi-emoji" id="rakhiIcon">🏵️</span>
-                <span class="hand-emoji" id="handIcon">🖐️</span>
+                <span class="hand-emoji">🤚</span>
             </div>
-            <p class="tap-instruction" id="tapInstruction">✨ Tap to tie rakhi ✨</p>
+            <p class="tap-instruction" id="tapInstruction">✨ Tap Rakhi to Tie ✨</p>
         </div>
 
-        <!-- Step 3: Final Celebration Message -->
+        <!-- Final Message Screen -->
         <div class="message-box" id="msgBox"></div>
     </div>
 
@@ -310,7 +298,7 @@
             setTimeout(() => el.remove(), 6000);
         }, 400);
 
-        // PERFECT NO BUTTON DODGE (STAYS IN SCREEN BOUNDS ALWAYS)
+        // NO BUTTON DODGE LOGIC
         const noBtn = document.getElementById('noBtn');
         let isNoBtnMoved = false;
 
@@ -326,7 +314,6 @@
             const btnHeight = noBtn.offsetHeight || 40;
             const padding = 20;
 
-            // Strict Visible Screen Bounds
             const maxLeft = window.innerWidth - btnWidth - padding;
             const maxTop = window.innerHeight - btnHeight - padding;
 
@@ -341,56 +328,52 @@
         noBtn.addEventListener('click', dodgeNoBtn);
         noBtn.addEventListener('mouseover', dodgeNoBtn);
 
-        // FLOW STEP 1: YES CLICK -> SHOW RAKHI SECTION
+        // YES BUTTON -> OPEN RAKHI SCREEN
         const yesBtn = document.getElementById('yesBtn');
         const initialView = document.getElementById('initialView');
         const rakhiSection = document.getElementById('rakhiSection');
         const bgAudio = document.getElementById('bgAudio');
 
-        function goToRakhiSection(e) {
+        function openRakhiScreen(e) {
             if (e) e.preventDefault();
             
             bgAudio.play().catch(() => {});
             
-            // Hide Initial View & NO button completely
             initialView.style.display = 'none';
             noBtn.style.display = 'none';
-
-            // Show Rakhi Section
             rakhiSection.style.display = 'flex';
         }
 
-        yesBtn.addEventListener('touchstart', goToRakhiSection);
-        yesBtn.addEventListener('click', goToRakhiSection);
+        yesBtn.addEventListener('touchstart', openRakhiScreen);
+        yesBtn.addEventListener('click', openRakhiScreen);
 
-        // FLOW STEP 2: TAP TO TIE RAKHI -> FINAL CELEBRATION
+        // TAP RAKHI TO TIE -> SHOW FINAL CELEBRATION
         const rakhiIcon = document.getElementById('rakhiIcon');
+        const rakhiClickArea = document.getElementById('rakhiClickArea');
         const tapInstruction = document.getElementById('tapInstruction');
         const msgBox = document.getElementById('msgBox');
-        let isRakhiTied = false;
+        let isTied = false;
 
-        function tieRakhi(e) {
+        function handleTieRakhi(e) {
             if (e) e.preventDefault();
-            if (isRakhiTied) return;
-            isRakhiTied = true;
+            if (isTied) return;
+            isTied = true;
 
-            // Trigger Animation
             rakhiIcon.classList.add('tied');
-            tapInstruction.innerText = "❤️ Rakhi Tied Successfully! ❤️";
+            tapInstruction.innerText = "❤️ Rakhi Tied! ❤️";
 
-            // Fire Canvas Celebration
             startFireworks();
 
-            // Transition to Final Celebration Page after 1.2 Seconds
             setTimeout(() => {
                 rakhiSection.style.display = 'none';
                 msgBox.style.display = 'block';
-                msgBox.innerHTML = "Thank you, Palak ❤️<br><br>I would choose you as my sister in every lifetime.<br><br> Happy Raksha Bandhan 🌸<br> You're the best sister ever!";
-            }, 1200);
+                msgBox.innerHTML = "Thank you, Palak ❤️<br><br>I would choose you as my sister in every lifetime.<br><br>Happy Raksha Bandhan 🌸<br>You are the best sister ever!";
+            }, 1000);
         }
 
-        rakhiIcon.addEventListener('touchstart', tieRakhi);
-        rakhiIcon.addEventListener('click', tieRakhi);
+        rakhiIcon.addEventListener('touchstart', handleTieRakhi);
+        rakhiIcon.addEventListener('click', handleTieRakhi);
+        rakhiClickArea.addEventListener('click', handleTieRakhi);
 
         // Canvas Fireworks
         const canvas = document.getElementById('fx-canvas');
